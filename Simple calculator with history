@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple Calculator with History</title>
+  <style>
+    body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 2rem; }
+    .calculator { width: 300px; }
+    input, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 16px; }
+    .history { margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px; }
+    .history ul { list-style-type: none; padding: 0; }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" id="expression" placeholder="Enter expression e.g. 2 + 3 * 4" />
+    <button onclick="calculate()">Calculate</button>
+    <input type="text" id="result" placeholder="Result" readonly />
+    <div class="history">
+      <h3>History</h3>
+      <ul id="historyList"></ul>
+    </div>
+  </div>  <script>
+    const historyStack = [];
+
+    function calculate() {
+      const expression = document.getElementById('expression').value;
+      try {
+        const result = eval(expression);
+        document.getElementById('result').value = result;
+        historyStack.push(`${expression} = ${result}`);
+        updateHistory();
+      } catch (error) {
+        alert("Invalid Expression");
+      }
+    }
+
+    function updateHistory() {
+      const historyList = document.getElementById('historyList');
+      historyList.innerHTML = "";
+      for (let i = historyStack.length - 1; i >= 0; i--) {
+        const li = document.createElement('li');
+        li.textContent = historyStack[i];
+        historyList.appendChild(li);
+      }
+    }
+  </script></body>
+</html>
