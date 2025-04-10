@@ -1,48 +1,66 @@
-<!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simple Calculator with History</title>
-  <style>
-    body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 2rem; }
-    .calculator { width: 300px; }
-    input, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 16px; }
-    .history { margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px; }
-    .history ul { list-style-type: none; padding: 0; }
-  </style>
-</head>
-<body>
-  <div class="calculator">
-    <input type="text" id="expression" placeholder="Enter expression e.g. 2 + 3 * 4" />
-    <button onclick="calculate()">Calculate</button>
-    <input type="text" id="result" placeholder="Result" readonly />
-    <div class="history">
-      <h3>History</h3>
-      <ul id="historyList"></ul>
-    </div>
-  </div>  <script>
-    const historyStack = [];
+def add(x, y):
+    return x + y
 
-    function calculate() {
-      const expression = document.getElementById('expression').value;
-      try {
-        const result = eval(expression);
-        document.getElementById('result').value = result;
-        historyStack.push(`${expression} = ${result}`);
-        updateHistory();
-      } catch (error) {
-        alert("Invalid Expression");
-      }
-    }
+def subtract(x, y):
+    return x - y
 
-    function updateHistory() {
-      const historyList = document.getElementById('historyList');
-      historyList.innerHTML = "";
-      for (let i = historyStack.length - 1; i >= 0; i--) {
-        const li = document.createElement('li');
-        li.textContent = historyStack[i];
-        historyList.appendChild(li);
-      }
-    }
-  </script></body>
-</html>
+def multiply(x, y):
+    return x * y
+
+def divide(x, y):
+    if y == 0:
+        return "Error: Division by zero"
+    return x / y
+
+def display_history(history):
+    if not history:
+        print("No history yet.")
+    else:
+        print("\nCalculation History:")
+        for item in history:
+            print(item)
+
+def calculator():
+    history = []
+    while True:
+        print("\nOptions:")
+        print("1. Add")
+        print("2. Subtract")
+        print("3. Multiply")
+        print("4. Divide")
+        print("5. Show History")
+        print("6. Exit")
+
+        choice = input("Enter your choice (1-6): ")
+
+        if choice == '6':
+            print("Exiting calculator. Goodbye!")
+            break
+        elif choice == '5':
+            display_history(history)
+        elif choice in ['1', '2', '3', '4']:
+            try:
+                num1 = float(input("Enter first number: "))
+                num2 = float(input("Enter second number: "))
+
+                if choice == '1':
+                    result = add(num1, num2)
+                    operation = f"{num1} + {num2} = {result}"
+                elif choice == '2':
+                    result = subtract(num1, num2)
+                    operation = f"{num1} - {num2} = {result}"
+                elif choice == '3':
+                    result = multiply(num1, num2)
+                    operation = f"{num1} * {num2} = {result}"
+                elif choice == '4':
+                    result = divide(num1, num2)
+                    operation = f"{num1} / {num2} = {result}"
+
+                print("Result:", result)
+                history.append(operation)
+            except ValueError:
+                print("Invalid input. Please enter numeric values.")
+        else:
+            print("Invalid choice. Please select a valid option.")
+
+calculator()
